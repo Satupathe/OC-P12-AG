@@ -79,10 +79,11 @@ WSGI_APPLICATION = 'internalCrm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'epiceventcrm',
-        'USER': 'test@admin@mytestpg',
-        'PASSWORD': 'epicpasswordcrm',
-        'HOST': 'epicevent'
+        'NAME': 'EpicEventCRMDatabase',
+        'USER': 'EpicEventAdministrator',
+        'PASSWORD': '42!6Ab25',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
