@@ -24,7 +24,7 @@ class EmployeeManager(BaseUserManager):
                           department = department,
                           )
         user.set_password(password)
-        user.save(user=self.db)
+        user.save(using=self.db)
         return user
     
     def create_superuser(self, username, email, password=None):
