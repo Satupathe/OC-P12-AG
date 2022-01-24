@@ -1,3 +1,4 @@
+from django.conf import Settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin, AbstractBaseUser, Group
 from django.db.models.deletion import CASCADE
@@ -43,9 +44,9 @@ class EmployeeManager(BaseUserManager):
 
 class Employee(AbstractBaseUser, PermissionsMixin):
     "Define employees informations and their respective company department"
-    CHOICES = [("1", "Managment"),
-               ("2", "Sales"),
-               ("3", "Support")
+    CHOICES = [("Management", "Managment"),
+               ("Sales", "Sales"),
+               ("Support", "Support")
                ]
     username = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=30)
@@ -53,7 +54,7 @@ class Employee(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name = "email", max_length=60, unique=True)
     phone = models.CharField(max_length=25)
     mobile = models.CharField(max_length=25)
-    department = models.CharField(choices=CHOICES, max_length=10)
+    department = models.CharField(choices=CHOICES, max_length=20)
     groups = models.ForeignKey(Group, on_delete=CASCADE, null=True, blank=True, default=None)
     created_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now_add=True)
@@ -63,7 +64,6 @@ class Employee(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now_add=True)
-
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
