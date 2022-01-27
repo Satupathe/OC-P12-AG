@@ -1,3 +1,5 @@
+from datetime import timezone
+import datetime
 from django.shortcuts import render
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -18,7 +20,7 @@ class ClientViewset(ModelViewSet):
     serializer_class = ClientSerializer
     permission_classes = [IsAuthenticated]
 
-    @action(methods=['get'], detail=True)
+    
     def get_queryset(self):
         return Client.objects.all()
 
@@ -32,21 +34,20 @@ class DetailClientViewset(ModelViewSet):
     serializer_class = DetailClientSerializer
     permission_classes = [IsAuthenticatedSalesEmployee]
 
-    @action(methods=['get'], detail=True)
+    
     def get_queryset(self):
         return Client.objects.filter(sales_employee=self.request.user)
 
     def create(self, request, *args, **kwargs):
         request.POST._mutable = True
-        print(f'essai:  {request.data}')
         request.data["sales_employee"] = request.user.id
         request.POST._mutable = False
         return super(DetailClientViewset, self).create(request, *args, *kwargs)
 
-    @action(methods=['put'], detail=True)
+    
     def modify(self, request, pk=None, *args, **kwargs):
         return super(DetailClientViewset, self).uptade(request, *args, **kwargs)
 
-    @action(methods=['delete'], detail=True)
+    
     def delete(self, request):
         return super(DetailClientViewset, self).delete()
