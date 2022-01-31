@@ -1,28 +1,10 @@
-from datetime import timezone
-import datetime
-from django.shortcuts import render
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from clients.models import Client
 from clients.permissions import IsAuthenticatedSalesEmployee
 from .serializers import ClientSerializer, DetailClientSerializer
+from rest_framework.exceptions import PermissionDenied
 
-
-class ClientViewset(ModelViewSet):
-    """
-    Only authenticated users can access this view
-    Allow to get whole client list, authenticated user related_list or one specific client
-    If user is in charge of the selected client, he can mangage its informations
-    """
-
-    serializer_class = ClientSerializer
-    permission_classes = [IsAuthenticated]
-
-    
-    def get_queryset(self):
-        return Client.objects.all()
 
 class DetailClientViewset(ModelViewSet):
     """
@@ -34,8 +16,10 @@ class DetailClientViewset(ModelViewSet):
     serializer_class = DetailClientSerializer
     permission_classes = [IsAuthenticatedSalesEmployee]
 
+    def permission_denied(self, request, message=None, code=None):
+        raise PermissionDenied(message)
     
-    def get_queryset(self):
+    def get_queryset(self, request):
         return Client.objects.filter(sales_employee=self.request.user)
 
     def create(self, request, *args, **kwargs):
@@ -46,7 +30,7 @@ class DetailClientViewset(ModelViewSet):
 
     
     def modify(self, request, pk=None, *args, **kwargs):
-        return super(DetailClientViewset, self).uptade(request, *args, **kwargs)
+        return super(DetailClientViewset, self).update(request, *args, **kwargs)
 
     
     def delete(self, request):

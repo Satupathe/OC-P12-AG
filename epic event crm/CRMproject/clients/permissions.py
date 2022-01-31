@@ -12,10 +12,6 @@ class IsAuthenticatedSalesEmployee(BasePermission):
     sales_methods = ['GET', 'POST', 'PUT', 'DELETE']
     
     def has_permission(self, request, view):
-        print(request.user.first_name)
-        print(request.user.last_name)
-        print(request.user.email)
-        print(request.user.department)
         if request.user.is_authenticated:
             if request.user.department == "Sales":
                 return True
@@ -24,6 +20,10 @@ class IsAuthenticatedSalesEmployee(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         if request.user.is_authenticated:
-            print('request.user.department', request.user.department)
             if obj.sales_employee == request.user:
                 return True
+            else:
+                self.message = "You can't modify or delete clients you are not assigned to"
+                return False
+
+    message = "Only Authenticated sales employee can create new client and modify their already existing clients and prospects"
