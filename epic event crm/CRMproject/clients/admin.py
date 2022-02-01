@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from clients.models import Client
 
@@ -17,13 +16,6 @@ class ClientCreationForm(forms.ModelForm):
                   'company_name',
                   'sales_employee',
         )
-
-    """def save(self, commit=True):
-        # Save the provided password in hashed format
-        user = super().save(commit=False)
-        if commit:
-            user.save()
-        return user"""
 
 
 class ClientChangeForm(forms.ModelForm):
@@ -57,11 +49,10 @@ class ClientAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_time', 'sales_employee')
 
     fieldsets = (
-                 ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'company_name', 'mobile', 'phone')}),
-                 ('Internal infos', {'fields': ('status', 'sales_employee')})
+                 ('Personal information', {'fields': ('first_name', 'last_name', 'email', 'company_name', 'mobile', 'phone')}),
+                 ('Internal information', {'fields': ('status', 'sales_employee')})
                  )
-    search_fields = ('email',)
+    search_fields = ('email', 'name')
     ordering = ('created_time',)
-    filter_horizontal = ()
 
 admin.site.register(Client, ClientAdmin)

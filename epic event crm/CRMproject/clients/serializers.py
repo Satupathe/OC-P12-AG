@@ -15,11 +15,6 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class DetailClientSerializer(serializers.ModelSerializer):
-
-    CHOICES = [("Prospect", "Prospect"),
-               ("Customer", "Customer"),
-               ]
-    status = serializers.MultipleChoiceField(choices=CHOICES)
     
     class Meta:
         model = Client

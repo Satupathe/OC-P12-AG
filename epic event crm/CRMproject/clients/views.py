@@ -19,7 +19,7 @@ class DetailClientViewset(ModelViewSet):
     def permission_denied(self, request, message=None, code=None):
         raise PermissionDenied(message)
     
-    def get_queryset(self, request):
+    def get_queryset(self):
         return Client.objects.filter(sales_employee=self.request.user)
 
     def create(self, request, *args, **kwargs):
