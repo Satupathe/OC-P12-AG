@@ -27,15 +27,3 @@ class ListViewset(ObjectMultipleModelAPIViewSet):
             'serializer_class': EventSerializer,
         },
     ]
-    
-    
-
-
-"""class TimelineViewSet(viewsets.ModelViewSet):
-    def list(self, request):
-        queryset = list(itertools.chain(Tweet.objects.all(), Article.objects.all()))
-        serializer = TimelineSerializer(queryset, many=True)
-        return Response(serializer.data)"""
-
-"""result = {'serializer1': serializer1.data, 'serializer2': serializer2.data} 
-return response(result)"""

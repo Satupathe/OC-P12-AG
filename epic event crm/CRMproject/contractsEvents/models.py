@@ -2,7 +2,7 @@ import datetime
 from tkinter import CASCADE
 from django.db import models
 from django.conf import settings
-from django.db.models.deletion import CASCADE, PROTECT
+from django.db import models
 from clients.models import Client
 
 
@@ -17,7 +17,7 @@ class Event(models.Model):
     status = models.CharField(choices=CHOICES, max_length=50)
     created_time = models.DateTimeField(verbose_name='contract_created time', auto_now_add=True)
     uptaded_time = models.DateTimeField(verbose_name='contract_updated_time', auto_now=True)
-    support_employee = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="support_employee", on_delete=PROTECT)
+    support_employee = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="support_employee", on_delete=models.PROTECT)
 
     def __str__(self):
         return self.name
@@ -35,9 +35,9 @@ class Contract(models.Model):
     status = models.CharField(choices=CHOICES, max_length=50)
     created_time = models.DateTimeField(verbose_name='contract_created time', auto_now_add=True)
     uptaded_time = models.DateTimeField(verbose_name='contract_updated_time', auto_now=True)
-    client = models.ForeignKey(Client, related_name="related_client", on_delete=CASCADE)
-    sales_administrator = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sales_administrator", on_delete=PROTECT)
-    event = models.ForeignKey(Event, related_name="relatedevent", on_delete=CASCADE, null=True, blank=True)
+    client = models.ForeignKey(Client, related_name="related_client", on_delete=models.CASCADE)
+    sales_administrator = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sales_administrator", on_delete=models.PROTECT)
+    event = models.ForeignKey(Event, related_name="relatedevent", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name

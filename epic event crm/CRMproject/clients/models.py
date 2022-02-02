@@ -1,7 +1,6 @@
 import datetime
 from django.conf import settings
 from django.db import models
-from django.db.models.deletion import PROTECT
 
 
 class Client(models.Model):
@@ -19,7 +18,7 @@ class Client(models.Model):
     company_name = models.CharField(max_length=255, null=False, blank=False)
     created_time = models.DateTimeField(verbose_name='created time', auto_now_add=True)
     uptaded_time = models.DateTimeField(verbose_name='updated_time', auto_now=True)
-    sales_employee = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sales_employee", on_delete=PROTECT)
+    sales_employee = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sales_employee", on_delete=models.PROTECT)
     
     def __str__(self):
         return self.email

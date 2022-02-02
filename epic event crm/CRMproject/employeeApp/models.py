@@ -1,7 +1,6 @@
 from django.conf import Settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin, AbstractBaseUser, Group
-from django.db.models.deletion import CASCADE
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
@@ -55,7 +54,7 @@ class Employee(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=25)
     mobile = models.CharField(max_length=25)
     department = models.CharField(choices=CHOICES, max_length=20)
-    groups = models.ForeignKey(Group, on_delete=CASCADE, null=True, blank=True, default=None)
+    groups = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, default=None)
     created_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now_add=True)
     is_admin = models.BooleanField(default=False)

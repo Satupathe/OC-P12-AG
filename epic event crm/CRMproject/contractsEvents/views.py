@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from contractsEvents.models import Contract, Event
-from contractsEvents.permissions import IsAuthenticatedSalesEmployee, IsAuthenticatedSalesOrSupportEmployee
+from contractsEvents.permissions import IsAuthenticatedSalesEmployee, EventSalesSupportEmployee
 from contractsEvents.serializers import DetailContractSerializer, DetailEventSerializer
 
 
@@ -30,13 +30,12 @@ class ContractViewSet(ModelViewSet):
 
 class EventViewSet(ModelViewSet):
 
+    print("event1")
     serializer_class = DetailEventSerializer
-    permission_classes = [IsAuthenticatedSalesOrSupportEmployee]
+    permission_classes = [EventSalesSupportEmployee]
 
 
     def get_queryset(self):
-        print("ceci est un essai qui prends de la place:", self.request.user.department)
-        print("ceci est un essai qui prends de la place 2: ", Event.objects.filter(relatedevent__sales_administrator=self.request.user)[0])
         if self.request.user.department == "Sales":
             return Event.objects.filter(relatedevent__sales_administrator=self.request.user)
         if self.request.user.department == "Support":
@@ -47,6 +46,7 @@ class EventViewSet(ModelViewSet):
 
     
     def modify(self, request, pk=None, *args, **kwargs):
+        print("modify1")
         return super(EventViewSet, self).update(request, *args, **kwargs)
     
     def delete(self, request):

@@ -1,8 +1,9 @@
 from rest_framework.viewsets import ModelViewSet
 
 from clients.models import Client
-from clients.permissions import IsAuthenticatedSalesEmployee
-from .serializers import ClientSerializer, DetailClientSerializer
+from clients.permissions import ClientSalesSupportEmployee
+from contractsEvents.models import Contract
+from .serializers import DetailClientSerializer
 from rest_framework.exceptions import PermissionDenied
 
 
@@ -14,13 +15,16 @@ class DetailClientViewset(ModelViewSet):
     """
 
     serializer_class = DetailClientSerializer
-    permission_classes = [IsAuthenticatedSalesEmployee]
+    permission_classes = [ClientSalesSupportEmployee]
 
     def permission_denied(self, request, message=None, code=None):
         raise PermissionDenied(message)
     
     def get_queryset(self):
-        return Client.objects.filter(sales_employee=self.request.user)
+        if self.request.user.department == "Sales":
+            return Client.objects.filter(sales_employee=self.request.user)
+        if self.request.user.department == "Support":
+            return Client.objects.filter(related_client__event__support_employee=self.request.user)
 
     def create(self, request, *args, **kwargs):
         request.POST._mutable = True

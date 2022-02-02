@@ -11,7 +11,7 @@ class IsAuthenticatedSalesEmployee(BasePermission):
     and if user is a sales employee
     Sales employee can create, get, modify or delete clients
     """
-    message = "Only Authenticated sales employee can create and modify their contracts"
+    message = "Only Authenticated sales employee can access, create and modify their detailed contracts"
     
     def has_permission(self, request, view):
         if request.user.is_authenticated:
@@ -30,7 +30,7 @@ class IsAuthenticatedSalesEmployee(BasePermission):
     message = "Only Authenticated sales employee can create and modify their contracts"
 
 
-class IsAuthenticatedSalesOrSupportEmployee(BasePermission):
+class EventSalesSupportEmployee(BasePermission):
     """
     Allow access to the Clients view if user is Authenticated
     and if user is a sales employee
@@ -55,7 +55,6 @@ class IsAuthenticatedSalesOrSupportEmployee(BasePermission):
                 return False
 
     def has_object_permission(self, request, view, obj):
-        self.item = None
         if request.user.is_authenticated:
             if request.user.department == "Sales":
                 if isinstance(obj, Contract):
