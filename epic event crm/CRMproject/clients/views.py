@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from clients.filters import ClientFilter
 
 from clients.models import Client
 from clients.permissions import ClientSalesSupportEmployee
@@ -16,6 +17,7 @@ class DetailClientViewset(ModelViewSet):
 
     serializer_class = DetailClientSerializer
     permission_classes = [ClientSalesSupportEmployee]
+    filter_class = ClientFilter
 
     def permission_denied(self, request, message=None, code=None):
         raise PermissionDenied(message)

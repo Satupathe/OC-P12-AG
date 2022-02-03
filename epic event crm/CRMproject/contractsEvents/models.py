@@ -30,7 +30,7 @@ class Contract(models.Model):
                ]
     name = models.CharField(max_length=100)
     description = models.TextField()
-    value = models.CharField(max_length=100)
+    value = models.IntegerField()
     deadline = models.DateField()
     status = models.CharField(choices=CHOICES, max_length=50)
     created_time = models.DateTimeField(verbose_name='contract_created time', auto_now_add=True)

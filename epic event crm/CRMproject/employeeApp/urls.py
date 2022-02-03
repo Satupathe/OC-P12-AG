@@ -14,3 +14,14 @@ urlpatterns = [
     path('lists/', include(lists_router.urls)),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
+
+
+
+"""Without the r'^stuffs/(?P<owner_id>.+)$' route, the filtering doesn't work anymore. 
+
+
+urlpatterns = format_suffix_patterns([
+    path('stuffs/', stuffs_views.StuffList.as_view()),
+    path('stuffs/<int:pk>/', stuffs_views.StuffDetail.as_view()),
+    re_path(r'^stuffs/(?P<owner_id>.+)$', stuffs_views.StuffsList.as_view())
+])"""

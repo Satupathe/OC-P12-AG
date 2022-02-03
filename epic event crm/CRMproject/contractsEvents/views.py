@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+from contractsEvents.filters import ContractFilter, EventFilter
 
 from contractsEvents.models import Contract, Event
 from contractsEvents.permissions import IsAuthenticatedSalesEmployee, EventSalesSupportEmployee
@@ -11,6 +12,7 @@ class ContractViewSet(ModelViewSet):
 
     serializer_class = DetailContractSerializer
     permission_classes = [IsAuthenticatedSalesEmployee]
+    filter_class = ContractFilter
 
     def get_queryset(self):
         return Contract.objects.filter(sales_administrator=self.request.user)
@@ -30,9 +32,9 @@ class ContractViewSet(ModelViewSet):
 
 class EventViewSet(ModelViewSet):
 
-    print("event1")
     serializer_class = DetailEventSerializer
     permission_classes = [EventSalesSupportEmployee]
+    filter_class = EventFilter
 
 
     def get_queryset(self):
@@ -46,7 +48,6 @@ class EventViewSet(ModelViewSet):
 
     
     def modify(self, request, pk=None, *args, **kwargs):
-        print("modify1")
         return super(EventViewSet, self).update(request, *args, **kwargs)
     
     def delete(self, request):
