@@ -1,10 +1,6 @@
-import email
-from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated
-from clients.filters import ClientFilter
 from clients.models import Client
 from clients.serializers import ClientSerializer
-from contractsEvents.filters import ContractFilter, EventFilter
 from contractsEvents.models import Contract, Event
 from drf_multiple_model.viewsets import ObjectMultipleModelAPIViewSet
 
@@ -14,10 +10,8 @@ from contractsEvents.serializers import ContractSerializer, EventSerializer
 class ListViewset(ObjectMultipleModelAPIViewSet):
     permission_classes = [IsAuthenticated]
 
-    
     def get_querylist(self):
-        
-        clients = Client.objects.all() 
+        clients = Client.objects.all()
         client_last_name = self.request.query_params.get('last_name', None)
         client_email = self.request.query_params.get('email', None)
         if client_last_name is not None:
@@ -36,7 +30,7 @@ class ListViewset(ObjectMultipleModelAPIViewSet):
         if contract_client_email is not None:
             contracts = contracts.filter(client__email__icontains=contract_client_email)
         if contract_minvalue is not None:
-            print (type(contract_minvalue))
+            print(type(contract_minvalue))
             contracts = contracts.filter(value__gte=int(contract_minvalue))
         if contract_maxvalue is not None:
             contracts = contracts.filter(value__lte=int(contract_maxvalue))
@@ -53,7 +47,7 @@ class ListViewset(ObjectMultipleModelAPIViewSet):
             events = events.filter(relatedevent__client__email__icontains=event_client_email)
         if event_beginning is not None:
             events = events.filter(event_beginning__icontains=event_beginning)
-        
+
         querylist = [
             {
                 'queryset': clients,
@@ -69,4 +63,3 @@ class ListViewset(ObjectMultipleModelAPIViewSet):
             },
         ]
         return querylist
-

@@ -1,6 +1,5 @@
 from rest_framework.permissions import BasePermission
-from clients.models import Client
-from employeeApp.models import Employee
+
 
 class ClientSalesSupportEmployee(BasePermission):
     """
@@ -8,10 +7,11 @@ class ClientSalesSupportEmployee(BasePermission):
     and if user is a sales employee
     Sales employee can create, get, modify or delete clients
     """
-    message = "Only Authenticated sales employee can create new client and modify their already existing clients and prospects"
+    message = """Only Authenticated sales employee can create new client
+                and modify their already existing clients and prospects"""
     sales_methods = ['GET', 'POST', 'PUT', 'DELETE']
-    support_methods = ['GET',]
-    
+    support_methods = ['GET', ]
+
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             if request.user.department == "Sales":
@@ -30,4 +30,5 @@ class ClientSalesSupportEmployee(BasePermission):
                 self.message = "You can't modify or delete clients you are not assigned to"
                 return False
 
-    message = "Only Authenticated sales employee can create new client and modify their already existing clients and prospects"
+    message = """Only Authenticated sales employee can create new client
+                 and modify their already existing clients and prospects"""

@@ -1,6 +1,5 @@
-from django.conf import Settings
 from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin, AbstractBaseUser, Group
+from django.contrib.auth.models import BaseUserManager, PermissionsMixin, AbstractBaseUser, Group
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
@@ -21,12 +20,12 @@ class EmployeeManager(BaseUserManager):
                           first_name=first_name,
                           last_name=last_name,
                           email=self.normalize_email(email),
-                          department = department,
+                          department=department,
                           )
         user.set_password(password)
         user.save(user=self.db)
         return user
-    
+
     def create_superuser(self, username, email, password=None):
         user = self.model(username=username,
                           email=self.normalize_email(email),
@@ -50,7 +49,7 @@ class Employee(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    email = models.EmailField(verbose_name = "email", max_length=60, unique=True)
+    email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     phone = models.CharField(max_length=25)
     mobile = models.CharField(max_length=25)
     department = models.CharField(choices=CHOICES, max_length=20)

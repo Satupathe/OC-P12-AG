@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from contractsEvents.models import Contract, Event
 
+
 class ContractCreationForm(forms.ModelForm):
     class Meta:
         model = Contract
@@ -14,7 +15,7 @@ class ContractCreationForm(forms.ModelForm):
                   'client',
                   'sales_administrator',
                   'event',
-        )
+                  )
 
 
 class ContractChangeForm(forms.ModelForm):
@@ -28,24 +29,24 @@ class ContractChangeForm(forms.ModelForm):
                   'client',
                   'sales_administrator',
                   'event',
-        )
+                  )
 
 
 class ContractAdmin(admin.ModelAdmin):
-    
+
     form = ContractCreationForm
     add_form = ContractChangeForm
-    
+
     list_display = ('name',
-                  'description',
-                  'value',
-                  'deadline',
-                  'status',
-                  'client',
-                  'sales_administrator',
-                  'event',
-                  'created_time',
-    )
+                    'description',
+                    'value',
+                    'deadline',
+                    'status',
+                    'client',
+                    'sales_administrator',
+                    'event',
+                    'created_time',
+                    )
 
     list_filter = ('status', 'sales_administrator')
 
@@ -66,7 +67,7 @@ class EventCreationForm(forms.ModelForm):
                   'event_end',
                   'status',
                   'support_employee',
-        )
+                  )
 
 
 class EventChangeForm(forms.ModelForm):
@@ -78,14 +79,14 @@ class EventChangeForm(forms.ModelForm):
                   'event_end',
                   'status',
                   'support_employee',
-        )
+                  )
 
 
 class EventAdmin(admin.ModelAdmin):
-    
+
     form = EventCreationForm
     add_form = EventChangeForm
-    
+
     list_display = ('name',
                     'description',
                     'event_beginning',
@@ -94,16 +95,19 @@ class EventAdmin(admin.ModelAdmin):
                     'updated_time',
                     'status',
                     'support_employee',
-    )
+                    )
 
     list_filter = ('status', 'support_employee')
 
-    fieldsets = (
-                 ('Practical information', {'fields': ('name', 'description', 'event_beginning', 'event_end')}),
+    fieldsets = (('Practical information', {'fields': ('name',
+                                                       'description',
+                                                       'event_beginning',
+                                                       'event_end')}),
                  ('Internal information', {'fields': ('status', 'support_employee')})
                  )
     search_fields = ('status', 'name')
     ordering = ('created_time', 'status')
+
 
 admin.site.register(Contract, ContractAdmin)
 admin.site.register(Event, EventAdmin)

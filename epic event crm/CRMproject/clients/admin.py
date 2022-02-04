@@ -15,7 +15,7 @@ class ClientCreationForm(forms.ModelForm):
                   'mobile',
                   'company_name',
                   'sales_employee',
-        )
+                  )
 
 
 class ClientChangeForm(forms.ModelForm):
@@ -29,14 +29,14 @@ class ClientChangeForm(forms.ModelForm):
                   'mobile',
                   'company_name',
                   'sales_employee',
-        )    
+                  )
 
 
 class ClientAdmin(admin.ModelAdmin):
-    
+
     form = ClientChangeForm
     add_form = ClientCreationForm
-    
+
     list_display = ('first_name',
                     'last_name',
                     'status',
@@ -48,11 +48,16 @@ class ClientAdmin(admin.ModelAdmin):
 
     list_filter = ('status', 'created_time', 'sales_employee')
 
-    fieldsets = (
-                 ('Personal information', {'fields': ('first_name', 'last_name', 'email', 'company_name', 'mobile', 'phone')}),
+    fieldsets = (('Personal information', {'fields': ('first_name',
+                                                      'last_name',
+                                                      'email',
+                                                      'company_name',
+                                                      'mobile',
+                                                      'phone')}),
                  ('Internal information', {'fields': ('status', 'sales_employee')})
                  )
     search_fields = ('email', 'name')
     ordering = ('created_time',)
+
 
 admin.site.register(Client, ClientAdmin)

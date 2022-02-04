@@ -1,10 +1,9 @@
 from django import forms
 from django.contrib import admin
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Permission
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from clients.models import Client
 from .models import Employee
 
 
@@ -75,13 +74,13 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserCreationForm
 
     list_display = ('email',
-                  'username',
-                  'first_name',
-                  'last_name',
-                  'phone',
-                  'mobile',
-                  'department',
-                  'groups')
+                    'username',
+                    'first_name',
+                    'last_name',
+                    'phone',
+                    'mobile',
+                    'department',
+                    'groups')
     list_filter = ('is_staff', "department")
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
@@ -89,15 +88,14 @@ class UserAdmin(BaseUserAdmin):
         ('Permissions', {'fields': ('department', 'groups', 'is_admin', 'is_staff', 'is_active')}),
     )
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2')}
-        ),
+        (None, {'classes': ('wide',),
+                'fields': ('email', 'password1', 'password2')}
+         ),
     )
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
 
+
 admin.site.register(Employee, UserAdmin)
 admin.site.register(Permission)
-#admin.site.unregister(Group)

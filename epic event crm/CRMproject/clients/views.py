@@ -3,7 +3,6 @@ from clients.filters import ClientFilter
 
 from clients.models import Client
 from clients.permissions import ClientSalesSupportEmployee
-from contractsEvents.models import Contract
 from .serializers import DetailClientSerializer
 from rest_framework.exceptions import PermissionDenied
 
@@ -21,7 +20,7 @@ class DetailClientViewset(ModelViewSet):
 
     def permission_denied(self, request, message=None, code=None):
         raise PermissionDenied(message)
-    
+
     def get_queryset(self):
         if self.request.user.department == "Sales":
             return Client.objects.filter(sales_employee=self.request.user)
@@ -34,10 +33,8 @@ class DetailClientViewset(ModelViewSet):
         request.POST._mutable = False
         return super(DetailClientViewset, self).create(request, *args, *kwargs)
 
-    
     def modify(self, request, pk=None, *args, **kwargs):
         return super(DetailClientViewset, self).update(request, *args, **kwargs)
 
-    
     def delete(self, request):
         return super(DetailClientViewset, self).delete()

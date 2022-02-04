@@ -3,7 +3,6 @@ from clients.models import Client
 
 
 class ClientSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Client
         fields = ['last_name',
@@ -15,7 +14,6 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class DetailClientSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Client
 

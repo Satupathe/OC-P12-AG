@@ -1,9 +1,6 @@
-from ast import Continue
-from email import message
 from rest_framework.permissions import BasePermission
-from clients.models import Client
 from contractsEvents.models import Contract, Event
-from employeeApp.models import Employee
+
 
 class IsAuthenticatedSalesEmployee(BasePermission):
     """
@@ -12,7 +9,7 @@ class IsAuthenticatedSalesEmployee(BasePermission):
     Sales employee can create, get, modify or delete clients
     """
     message = "Only Authenticated sales employee can access, create and modify their detailed contracts"
-    
+
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             if request.user.department == "Sales":
@@ -21,7 +18,7 @@ class IsAuthenticatedSalesEmployee(BasePermission):
                 return False
 
     def has_object_permission(self, request, view, obj):
-        if request.user.is_authenticated:    
+        if request.user.is_authenticated:
             if obj.sales_administrator == request.user:
                 return True
             else:
@@ -39,7 +36,7 @@ class EventWhichTeamEmployee(BasePermission):
     message = "Only Authenticated sales ou support employee can access this page"
     sales_methods = ['GET', 'POST', 'PUT', 'DELETE']
     support_management_methods = ['GET', 'PUT']
-    
+
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             if request.user.department == "Sales":
@@ -56,7 +53,7 @@ class EventWhichTeamEmployee(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         if request.user.is_authenticated:
-            if request.user.department == "Sales":                  
+            if request.user.department == "Sales":
                 if isinstance(obj, Event):
                     related_contract_admin = Contract.objects.get(event=obj.id)
                     if related_contract_admin.sales_administrator == request.user:
@@ -72,5 +69,5 @@ class EventWhichTeamEmployee(BasePermission):
             if request.user.department == "Management":
                 if isinstance(obj, Event):
                     return True
-        
+
         return False

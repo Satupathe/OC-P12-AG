@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from contractsEvents.filters import ContractFilter, EventFilter
 
@@ -25,10 +23,10 @@ class ContractViewSet(ModelViewSet):
         request.data["sales_administrator"] = request.user.id
         request.POST._mutable = False
         return super(ContractViewSet, self).create(request, *args, *kwargs)
-    
+
     def modify(self, request, pk=None, *args, **kwargs):
         return super(ContractViewSet, self).update(request, *args, **kwargs)
-    
+
     def delete(self, request):
         return super(ContractViewSet, self).delete()
 
@@ -70,6 +68,6 @@ class EventViewSet(ModelViewSet):
         if self.request.user.department == "Management":
             self.serializer_class = ManagementTeamEventSerializer
             return super(EventViewSet, self).update(request, *args, **kwargs)
-    
+
     def delete(self, request):
         return super(EventViewSet, self).delete()

@@ -3,7 +3,6 @@ from contractsEvents.models import Contract, Event
 
 
 class EventSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Event
         fields = ('name',
@@ -15,7 +14,6 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class ContractSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Contract
         fields = ('name',
@@ -29,7 +27,6 @@ class ContractSerializer(serializers.ModelSerializer):
 
 
 class DetailAllTeamsEventSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Event
         fields = ('name',
@@ -55,14 +52,15 @@ class DetailSalesSupportEventSerializer(serializers.ModelSerializer):
                   'updated_time',
                   )
 
+
 class ManagementTeamEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ("support_employee",)
+
 
 class DetailContractSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contract
         fields = "__all__"
-
