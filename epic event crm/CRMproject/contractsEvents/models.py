@@ -16,8 +16,12 @@ class Event(models.Model):
     event_end = models.DateTimeField()
     status = models.CharField(choices=CHOICES, max_length=50)
     created_time = models.DateTimeField(verbose_name='contract_created time', auto_now_add=True)
-    uptaded_time = models.DateTimeField(verbose_name='contract_updated_time', auto_now=True)
-    support_employee = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="support_employee", on_delete=models.PROTECT)
+    updated_time = models.DateTimeField(verbose_name='contract_updated_time', auto_now=True)
+    support_employee = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                         related_name="support_employee",
+                                         on_delete=models.PROTECT,
+                                         blank=True, null=True
+                                         )
 
     def __str__(self):
         return self.name
@@ -34,7 +38,7 @@ class Contract(models.Model):
     deadline = models.DateField()
     status = models.CharField(choices=CHOICES, max_length=50)
     created_time = models.DateTimeField(verbose_name='contract_created time', auto_now_add=True)
-    uptaded_time = models.DateTimeField(verbose_name='contract_updated_time', auto_now=True)
+    updated_time = models.DateTimeField(verbose_name='contract_updated_time', auto_now=True)
     client = models.ForeignKey(Client, related_name="related_client", on_delete=models.CASCADE)
     sales_administrator = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sales_administrator", on_delete=models.PROTECT)
     event = models.ForeignKey(Event, related_name="relatedevent", on_delete=models.CASCADE, null=True, blank=True)

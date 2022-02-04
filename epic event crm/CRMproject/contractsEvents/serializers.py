@@ -28,12 +28,37 @@ class ContractSerializer(serializers.ModelSerializer):
                   )
 
 
-class DetailEventSerializer(serializers.ModelSerializer):
+class DetailAllTeamsEventSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Event
-        fields = "__all__"
+        fields = ('name',
+                  'description',
+                  'event_beginning',
+                  'event_end',
+                  'status',
+                  'created_time',
+                  'updated_time',
+                  'support_employee'
+                  )
 
+
+class DetailSalesSupportEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ('name',
+                  'description',
+                  'event_beginning',
+                  'event_end',
+                  'status',
+                  'created_time',
+                  'updated_time',
+                  )
+
+class ManagementTeamEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ("support_employee",)
 
 class DetailContractSerializer(serializers.ModelSerializer):
 

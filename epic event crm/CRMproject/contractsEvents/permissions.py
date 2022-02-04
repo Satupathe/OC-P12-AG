@@ -30,7 +30,7 @@ class IsAuthenticatedSalesEmployee(BasePermission):
     message = "Only Authenticated sales employee can create and modify their contracts"
 
 
-class EventSalesSupportEmployee(BasePermission):
+class EventWhichTeamEmployee(BasePermission):
     """
     Allow access to the Clients view if user is Authenticated
     and if user is a sales employee
@@ -38,14 +38,14 @@ class EventSalesSupportEmployee(BasePermission):
     """
     message = "Only Authenticated sales ou support employee can access this page"
     sales_methods = ['GET', 'POST', 'PUT', 'DELETE']
-    support_methods = ['GET', 'PUT']
+    support_management_methods = ['GET', 'PUT']
     
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             if request.user.department == "Sales":
                 return True
-            if request.user.department == "Support":
-                if request.method in self.support_methods:
+            if request.user.department == "Support" or request.user.department == "Management":
+                if request.method in self.support_management_methods:
                     return True
                 else:
                     self.message = "You can't create or delete events with your access rights"
@@ -56,13 +56,7 @@ class EventSalesSupportEmployee(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         if request.user.is_authenticated:
-            if request.user.department == "Sales":
-                if isinstance(obj, Contract):
-                    if obj.sales_administrator == request.user:
-                        return True
-                    else:
-                        return False
-                  
+            if request.user.department == "Sales":                  
                 if isinstance(obj, Event):
                     related_contract_admin = Contract.objects.get(event=obj.id)
                     if related_contract_admin.sales_administrator == request.user:
@@ -74,5 +68,9 @@ class EventSalesSupportEmployee(BasePermission):
                 if isinstance(obj, Event):
                     if obj.support_employee == request.user:
                         return True
+
+            if request.user.department == "Management":
+                if isinstance(obj, Event):
+                    return True
         
         return False

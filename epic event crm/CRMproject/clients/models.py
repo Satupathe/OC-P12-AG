@@ -17,7 +17,7 @@ class Client(models.Model):
     mobile = models.CharField(max_length=25)
     company_name = models.CharField(max_length=255, null=False, blank=False)
     created_time = models.DateTimeField(verbose_name='created time', auto_now_add=True)
-    uptaded_time = models.DateTimeField(verbose_name='updated_time', auto_now=True)
+    updated_time = models.DateTimeField(verbose_name='updated_time', auto_now=True)
     sales_employee = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="sales_employee", on_delete=models.PROTECT)
     
     def __str__(self):

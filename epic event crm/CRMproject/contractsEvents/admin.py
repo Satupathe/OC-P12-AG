@@ -91,7 +91,7 @@ class EventAdmin(admin.ModelAdmin):
                     'event_beginning',
                     'event_end',
                     'created_time',
-                    'uptaded_time',
+                    'updated_time',
                     'status',
                     'support_employee',
     )
